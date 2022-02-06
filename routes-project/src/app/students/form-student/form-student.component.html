@@ -1,0 +1,19 @@
+<h5>Editar estudante</h5>
+
+<section class="form-container">
+  <div appearance="fill">
+    <mat-label>Id</mat-label>
+    <input matInput [(ngModel)]="student.id" disabled>
+  </div>
+
+  <div appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="student.name" (input)="onInput()">
+  </div>
+
+  <div appearance="fill">
+    <mat-label>Enter your email</mat-label>
+    <input matInput [(ngModel)]="student.email" placeholder="pat@example.com" [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </div>
+</section>

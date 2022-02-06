@@ -1,0 +1,15 @@
+<p>Lista de cursos:</p>
+
+<p>Página: {{ page }}</p>
+
+<mat-list role="list">
+  <mat-list-item
+    role="listitem"
+    *ngFor="let course of courses"
+    [routerLink]="['/courses', course.id]">
+    <!-- usa routerLink para clicar no curso e ir para a página com detalhes e id dele -->
+    <a>{{ course.name }}</a>
+  </mat-list-item>
+</mat-list>
+
+<button (click)="changePage()">Próxima página</button>

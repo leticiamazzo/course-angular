@@ -1,0 +1,19 @@
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+    <mat-list role="list">
+      <h2>Lista de estudantes</h2>
+
+      <mat-list-item
+        role="listitem"
+        *ngFor="let student of students"
+        [routerLink]="[student.id]">
+        <!-- usa routerLink para clicar no curso e ir para a página com detalhes e id dele. aqui passa diretamente o student.id porque é uma rota filha e /students já foi definida pela rota mãe -->
+        <a>{{ student.name }}</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <router-outlet></router-outlet>
+  </mat-grid-tile>
+</mat-grid-list>

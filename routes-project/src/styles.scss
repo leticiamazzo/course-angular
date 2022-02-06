@@ -1,0 +1,6 @@
+$materialize-fonts-path: '~materialize-angular/fonts';
+ 
+@import '~materialize-angular/styles/materialize-angular.scss';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

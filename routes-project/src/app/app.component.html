@@ -1,0 +1,36 @@
+
+<mat-toolbar color="primary" *ngIf="showMenu">
+  <a routerLink="" class="logo">Rotas</a>
+
+  <ul>
+    <li>
+      <a routerLink="" routerLinkActive="active-link">Home</a>
+    </li>
+
+    <li>
+      <a routerLink="/login" routerLinkActive="active-link">Login</a>
+    </li>
+
+    <li>
+      <a routerLink="/courses" routerLinkActive="active-link" [queryParams]="{page:1}">Cursos</a>
+    </li>
+
+    <li>
+      <!-- usa property binding para passar informações dinâmicas, não só estáticas -->
+      <!-- [routerLink] recebe um array de parâmetros -->
+      <!-- se as rotas são raiz, não precisa de / -->
+      <!-- <a [routerLink]="['courses', courseId.value]" routerLinkActive="active-link">Curso com id</a> -->
+    </li>
+
+    <li>
+      <a routerLink="/students" routerLinkActive="active-link">Alunos</a>
+    </li>
+  </ul>
+</mat-toolbar>
+
+<div class="container">
+  <!-- <p>Digite o id do curso</p>
+  <input #courseId> -->
+  <router-outlet></router-outlet>
+</div>
+
