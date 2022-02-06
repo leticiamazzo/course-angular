@@ -1,0 +1,80 @@
+<div class="example-container">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput type="text" placeholder="Nome" id="name" name="name" [(ngModel)]="user.name" required #nome="ngModel">
+    </mat-form-field>
+
+    <p *ngIf="!nome.valid">
+      O nome é obrigatório
+    </p>
+
+    <!-- <div>{{ nome.className }}</div> -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <!-- <input [formControl]="email"> para validação de email funcionar, mas só em formulários reativos -->
+      <input matInput placeholder="pat@example.com" name="email" [ngModel]="user.email" required>
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+
+
+    <div class="line" ngModelGroup="address">
+      <mat-form-field appearance="outline">
+        <mat-label>CEP</mat-label>
+        <input matInput type="text" placeholder="CEP" id="cep" name="cep" ngModel required #cep="ngModel" (blur)="consultCEP($event.target.value)">
+        <!-- todo evento disparado, sua função pode receber o $event. O .target vai ser o campo de input que tem uma propriedade value -->
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Número</mat-label>
+        <input matInput type="text" placeholder="Número" id="number" name="number" ngModel required #number="ngModel">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Complemento</mat-label>
+        <input matInput type="text" placeholder="Complemento" id="complement" name="complement" ngModel required #complement="ngModel">
+      </mat-form-field>
+    </div>
+
+    <div class="inteire-line" ngModelGroup="address">
+      <mat-form-field appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <input matInput type="text" placeholder="Endereço" id="address" name="address" ngModel required #address="ngModel">
+      </mat-form-field>
+    </div>
+
+    <div class="line" ngModelGroup="address">
+      <mat-form-field appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <input matInput type="text" placeholder="Bairro" id="neighborhood" name="neighborhood" ngModel required #neighborhood="ngModel">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cidade</mat-label>
+        <input matInput type="text" placeholder="Cidade" id="city" name="city" ngModel required #city="ngModel">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <input matInput type="text" placeholder="Estado" id="state" name="state" ngModel required #state="ngModel">
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" [disabled]="!f.valid">Enviar</button>
+
+    <app-form-debug [form]="f"></app-form-debug>
+  </form>
+</div>
+
+<!-- Aula 74 -->
+<!-- 1- cria variável local #f -->
+<!-- 2- associa essa variável à diretiva ngForm do angular. Como se pedisse ajuda para gerenciar -->
+<!-- 3- vai escutar o evento onSubmit, por isso usa o (event binding) e cria método -->
+<!-- 4- passa variável ao evento. Ela será a referência do formulário para o evento  -->
+<!-- 5- associa cada campo de input (cujo nome está no atributo name) com um campo de valor do formulário pela diretiva ngModel -->
+
+<!-- Aula 75 -->
+<!-- 1- para o formulário já começar preenchido: two way data binding. Traz do componente e renderiza valor no template.
+        Se for só inicializar o valor e não rastrear alterações, usar só o event binding -->

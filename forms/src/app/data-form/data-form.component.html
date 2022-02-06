@@ -1,0 +1,82 @@
+<div class="example-container">
+  <!-- // 5FM - sincroniza var de form, criada no ts, com tag form html. Através do propertyBinding, para sempre que o formulário for modificado, reflita no template -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" >
+      <mat-label>Nome</mat-label>
+      <!-- // 6FM - formControlName name é a associação do campo entre o input e o ts. -->
+      <input matInput type="text" placeholder="Nome" id="name" formControlName="name">
+    </mat-form-field>
+
+    <!-- <div>{{ nome.className }}</div> -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput placeholder="pat@example.com" formControlName="email">
+      <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+    </mat-form-field>
+
+    <!-- // 11FM - formGroupName adiciona formGroupName definido no ts por conta do objeto que tem todos os dados de endereço -->
+    <div formGroupName="addressGroup">
+      <div class="line">
+        <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
+          <!-- // 12FM - Passa o método no evento de blur -->
+          <input matInput type="text" placeholder="CEP" id="cep" formControlName="cep" (blur)="consultCEP()">
+          <!--  (blur)="consultCEP($event.target.value)" -->
+          <!-- todo evento disparado, sua função pode receber o $event. O .tar  vai ser o campo de input que tem uma propriedade value -->
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
+          <!-- 9FM - Adicionar formControlName aos inputs -->
+          <input matInput type="text" placeholder="Número" id="number" formControlName="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Complemento</mat-label>
+          <input matInput type="text" placeholder="Complemento" id="complement" formControlName="complement">
+        </mat-form-field>
+      </div>
+
+      <div class="inteire-line">
+        <mat-form-field appearance="outline">
+          <mat-label>Endereço</mat-label>
+          <input matInput type="text" placeholder="Endereço" id="address" formControlName="address">
+        </mat-form-field>
+      </div>
+
+      <div class="line">
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput type="text" placeholder="Bairro" id="neighborhood" formControlName="neighborhood">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
+          <input matInput type="text" placeholder="Cidade" id="city" formControlName="city">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <input matInput type="text" placeholder="Estado" id="state" formControlName="state">
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <!-- <button mat-raised-button color="primary" [disabled]="!form.valid">Enviar</button> -->
+
+    <button mat-raised-button color="primary">Enviar</button>
+    <button mat-raised-button (click)="resetData()">Cancelar</button>
+
+  </form>
+
+  <div style="margin-top: 20px" *ngIf="form">
+    <div>Detalhes do form</div> 
+
+    <pre>Form válido: {{ form.valid }}</pre>
+
+    <pre>Valores: <br> {{ form.value | json }}</pre>
+  </div>
+
+</div>
