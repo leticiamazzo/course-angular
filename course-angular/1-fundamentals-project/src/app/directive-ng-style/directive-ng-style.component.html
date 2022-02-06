@@ -1,0 +1,28 @@
+<button 
+    [style.backgroundColor]="active ? 'blue' : 'red'"
+    [style.fontSize]="fontSize + 'px'"
+    (click)="changeActive()">
+    Mudar atributo 'active'
+</button>
+
+<br>
+
+<input type="text" [(ngModel)]="fontSize">
+
+<br>
+<br>
+<br>
+
+<!-- com ngStyle -->
+<button 
+    [ngStyle]="{
+        'backgroundColor': (active ? 'blue' : 'red'),
+        'fontSize': fontSize + 'px'
+    }"
+    (click)="changeActive()">
+        Mudar atributo 'active'
+</button>
+
+<br>
+
+<input type="text" [(ngModel)]="fontSize">

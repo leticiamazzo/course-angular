@@ -1,0 +1,2 @@
+- Consome informações vindas do serviço, ou seja, não são hard coded no ts;
+- Cria, usa compoentes no módulo e exporta módulo

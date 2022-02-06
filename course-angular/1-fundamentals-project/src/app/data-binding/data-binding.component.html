@@ -1,0 +1,77 @@
+<!-- Interporlação -->
+<h2>Interporlação</h2>
+<p>{{ vegetables }}</p>
+<p>{{ 1 + 1 }}</p>
+<p>{{ 1 + 1 + getValue() }}</p>
+<br />
+<br />
+<br />
+
+<!-- Property binding -->
+<h2>Property binding</h2>
+<img src="{{ cityImage }}" />
+<br />
+<img [src]="cityImage" />
+<br />
+<br />
+<br />
+
+<!-- Event binding -->
+<h2>Event binding</h2>
+<button (click)="clickButton()">Clique</button>
+<br />
+<br />
+<input
+  type="text"
+  (keyup)="onKeyUp($event)"
+  (keyup.enter)="save(inputArea.value)"
+  (blur)="save(inputArea.value)"
+  #inputArea
+/>
+<p>Valor atual: {{ actualValue }}</p>
+<p>Valor atual: {{ savedValue }}</p>
+
+<br />
+<br />
+<br />
+
+<p
+  (mouseover)="onMouseOverOut()"
+  (mouseout)="onMouseOverOut()"
+  [class.highlight]="isMouseOver"
+>
+  Passe o mouse sobre mim
+</p>
+
+<br />
+<br />
+<br />
+
+<!-- Two way data binding -->
+<h2>Two way data binding</h2>
+<app-form></app-form>
+<br />
+<br />
+<br />
+
+<!-- Input property -->
+<h2>Input property</h2>
+<section class="input-properties">
+  <app-course [name]="courseName"></app-course>
+</section>
+<br />
+<br />
+<br />
+
+<!-- Output property -->
+<h2>Output property</h2>
+<section class="output-properties">
+  <app-counter
+    [initialValue]="defaultValue"
+    (changedValue)="onChangedValue($event)"
+  >
+  </app-counter>
+</section>
+<br />
+<br />
+<br />

@@ -1,0 +1,28 @@
+<h2>*ngIf</h2>
+
+<div *ngIf="cursos.length > 0">
+    Lista de cursos
+</div>
+
+<div *ngIf="cursos.length == 0">
+    Não existem cursos para serem listados
+</div>
+
+<br>
+<br>
+
+<div>
+    <button (click)="click()">Exibir cursos</button>
+    <p *ngIf="hasCourses">Lista de cursos</p>
+    <p *ngIf="!hasCourses">Não existem cursos para serem listados</p>
+</div>
+
+<br>
+<br>
+
+<h1>
+    <button (click)="favorite()">
+        <i class="bi bi-heart-fill" *ngIf="activeIcon"></i>
+        <i class="bi bi-heart" *ngIf="!activeIcon"></i>
+    </button>
+</h1>

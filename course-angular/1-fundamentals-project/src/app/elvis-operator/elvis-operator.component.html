@@ -1,0 +1,6 @@
+<p>Descrição: {{ task.description }}</p>
+<!-- coloca ? depois da variável / objeto que pode ter valor nulo. aí faz lógica de if. se tem name, então mostra, senão, deixa vazio   -->
+<p>Criador: {{ task.creator?.name }}</p>
+<!-- <p>Criador: {{ task.creator.name }}</p> -->
+
+<p>Usuário: {{ task.user?.first }}</p>
