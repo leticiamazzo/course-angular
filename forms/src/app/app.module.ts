@@ -14,11 +14,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataFormModule } from './data-form/data-form.module';
 import { SharedModule } from './shared/shared.module';
+import { TrainningReactiveFormComponent } from './trainning-reactive-form/trainning-reactive-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TemplateFormComponent,
+    TrainningReactiveFormComponent,
   ],
   imports: [
     BrowserModule,

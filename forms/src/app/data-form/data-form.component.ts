@@ -33,7 +33,7 @@ export class DataFormComponent implements OnInit {
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS
     // 1ª é mais verbosa
-    // Atibui a var form à uma instância de um FormGroup (cria um exemplar da classe FormGroup para trabalhar com ela).
+    // Atribui a var form à uma instância de um FormGroup (cria um exemplar da classe FormGroup para trabalhar com ela).
     // A classe FormGroup recebe como parâmetro um objeto com cada campo que queremos declarar no formulário. Cada campo desse será um "controle" do formulário
     // Dentro da classe instânciada FormControl pode se passar o valor inicial que será exibido no campo. Ficaria assim: name: new FormControl('Leticia')
     // this.form = new FormGroup({
