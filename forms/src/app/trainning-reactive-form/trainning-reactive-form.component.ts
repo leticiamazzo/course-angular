@@ -38,17 +38,32 @@ export class TrainningReactiveFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form);
-    
-    this.http.post(`${this.apiURL}`, JSON.stringify(this.form.value))
-    .subscribe(data => {
-      console.log(data);
 
-      this.form.reset()
-    }, 
-      // caso aconteça um erro formulário não é resetado e usuário ainda pode corrigir sem perder o que fez
-      (error => alert('erro'))
-    
-    );
+    if (this.form.valid) {
+      this.http.post(`${this.apiURL}`, JSON.stringify(this.form.value))
+      .subscribe(data => {
+        console.log(data);
+  
+        this.form.reset()
+      }, 
+        // caso aconteça um erro formulário não é resetado e usuário ainda pode corrigir sem perder o que fez
+        (error => alert('erro'))
+      
+      );
+    }
+
+    this.verifyFormValidations(this.form)
+  }
+
+  verifyFormValidations(formGroup: FormGroup) {
+    Object.keys(this.form.controls).forEach(controlName => {
+      const control = formGroup.get(controlName);
+      control.markAsDirty();
+
+      if (control instanceof FormGroup) {
+        this.verifyFormValidations(control);
+      }
+    })
   }
 
   consultCEP() {
