@@ -14,13 +14,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataFormModule } from './data-form/data-form.module';
 import { SharedModule } from './shared/shared.module';
-import { TrainningReactiveFormComponent } from './trainning-reactive-form/trainning-reactive-form.component';
+import { TrainningReactiveFormModule } from './trainning-reactive-form/trainning-reactive-form.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     TemplateFormComponent,
-    TrainningReactiveFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +36,8 @@ import { TrainningReactiveFormComponent } from './trainning-reactive-form/trainn
     MatInputModule,
     MatToolbarModule,
 
-    DataFormModule // 3FM - importa módulo para ter acesso
+    DataFormModule, // 3FM - importa módulo para ter acesso
+    TrainningReactiveFormModule  
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}

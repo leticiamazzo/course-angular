@@ -43,6 +43,7 @@ export class DataFormComponent implements OnInit {
 
     // 2ª
     // Injeta FormBuilder no constructor
+    // Referencia variável form e atribui a ela a instância do tipo FormGroup()
     this.form = this.formBuilder.group({
       // 8FM - Adiciona validações
       name: [null, [Validators.required, Validators.min(2), Validators.max(30)]],
