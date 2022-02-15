@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'templateForm', component: TemplateFormComponent },
   { path: 'dataForm', component: DataFormComponent },
   { path: 'trainningReactiveForm', component: TrainningReactiveFormComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'trainningReactiveForm' },
+  { path: '', pathMatch: 'full', redirectTo: 'dataForm' },
 ];
 
 @NgModule({

@@ -1,3 +1,5 @@
+import { BrState } from './../shared/models/br-state';
+import { DropdownService } from './../shared/services/dropdown.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -10,15 +12,21 @@ import { HttpClient } from '@angular/common/http';
 export class TrainningReactiveFormComponent implements OnInit {
   form: FormGroup;
   apiURL: string;
+  states: BrState[];
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private dropdownService: DropdownService,
   ) {
     this.apiURL = 'https://httpbin.org/post';
   }
 
   ngOnInit(): void {
+    this.dropdownService.getBrazilianStates()
+      .subscribe(data => { this.states = data; console.log(data);})
+
+
     this.form = this.formBuilder.group({
       name: ['Leticia', [Validators.required, Validators.min(2), Validators.max(30)]],
       email: ['leticiamazzo@gmail.com', [Validators.required, Validators.email]],
@@ -58,8 +66,10 @@ export class TrainningReactiveFormComponent implements OnInit {
   verifyFormValidations(formGroup: FormGroup) {
     Object.keys(this.form.controls).forEach(controlName => {
       const control = formGroup.get(controlName);
+      console.log(control);
+      
       control.markAsDirty();
-
+      
       if (control instanceof FormGroup) {
         this.verifyFormValidations(control);
       }

@@ -29,6 +29,7 @@ export class DataFormComponent implements OnInit {
     // 20FM - faz requisição para obter lista de Estados. Precisa se inscrever porque o retorno é um Observable ou promise e queremos ser notificados quando houver retorno
     this.dropdownService.getBrazilianStates()
       .subscribe(data => { this.states = data; console.log(data); });
+      
 
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS

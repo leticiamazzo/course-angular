@@ -18,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule // 19FM -  Toda vez que usa o HttpModule em um serviço, precisa importá-lo no módulo também
   ],
   providers: [
-    DropdownService
+    DropdownService // 19FM -  Precisa expor o serviço que quer disponível aos módulos
   ]
 })
 export class SharedModule { }
