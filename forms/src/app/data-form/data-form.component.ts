@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
+import { ConsultCepService } from '../shared/services/consult-cep.service';
 
 @Component({
   selector: 'app-data-form',
@@ -21,6 +22,7 @@ export class DataFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient, // Classe disponível no módulo HttpClientModule. Ofere interface simplificada para fazer requisições
     private dropdownService: DropdownService,
+    private consultCepService: ConsultCepService,
   ) {
     this.apiURL = 'https://httpbin.org/post';
   }
@@ -104,30 +106,42 @@ export class DataFormComponent implements OnInit {
     });
   }
 
-
+  // 21FM - NA REFATORAÇAO TODA A CONSULTA DO CEP E RESPONSABILIDADE DO SERVICO
   // 13FM - Validação de CEP e requisição a API
+  // consultCEP() {
+  //   // 14FM - Forma de acessar o valor do CEP
+  //   let cep = this.form.get('addressGroup.cep').value;
+  //   console.log(cep);
+
+  //   // retira caracter diferente de número
+  //   cep = cep.replace(/\D/g, '');
+  //   console.log(cep);
+
+  //   // verifica se cep possui valor informado
+  //   if (cep !== '') {
+  //     // regex pra validar cep
+  //     // let validateCep = /ˆ[0-9]{8}$/;
+  //     // if (validateCep.test(cep)) {
+
+  //       // reseta dados do formulário
+  //       // this.resetData();
+
+
+  //       this.http.get(`//viacep.com.br/ws/${cep}/json/`)
+  //         .subscribe(data => this.populateData(data));
+  //     // }
+  //   }
+  // }
+
+  // 23FM - Faz a chamada do serviço e se inscreve para receber as mudanças 
   consultCEP() {
-    // 14FM - Forma de acessar o valor do CEP
     let cep = this.form.get('addressGroup.cep').value;
-    console.log(cep);
-
-    // retira caracter diferente de número
-    cep = cep.replace(/\D/g, '');
-    console.log(cep);
-
-    // verifica se cep possui valor informado
-    if (cep !== '') {
-      // regex pra validar cep
-      // let validateCep = /ˆ[0-9]{8}$/;
-      // if (validateCep.test(cep)) {
-
-        // reseta dados do formulário
-        // this.resetData();
-
-
-        this.http.get(`//viacep.com.br/ws/${cep}/json/`)
-          .subscribe(data => this.populateData(data));
-      // }
+    
+    if (cep != null && cep !== '') {
+      // 1º verifica por undefined e por null e depois com o valor em si
+      this.consultCepService.consultCEP(cep)
+      // formulário se inscreve nas mudanças e assim que ocorrerem e recebermos o resultado, popula no formulário
+        .subscribe(data => this.populateData(data))
     }
   }
 
