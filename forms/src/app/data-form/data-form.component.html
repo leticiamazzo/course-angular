@@ -58,7 +58,13 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
-          <input matInput type="text" placeholder="Estado" id="state" formControlName="state">
+          <!-- <input matInput type="text" placeholder="Estado" id="state" formControlName="state"> -->
+          <mat-select placeholder="Estado" id="state" formControlName="state">
+            <!--     // 24FM - Aqui nos inscrevemos no observable que retorna a lista de Estados e essa inscrição fica ativa na memória. Pode ser que mesmo quando o componente não estiver sendo exibido na tela, essa inscrição ainda possa ficar ativa e, com isso, haver memory leaks (vazamento de memória). Pra evitar, aconselha-se a usar o | async -->
+            <mat-option *ngFor="let state of states | async" [value]="state.initial">
+              {{ state.name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>

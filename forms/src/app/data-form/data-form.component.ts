@@ -1,10 +1,10 @@
 import { BrState } from './../shared/models/br-state';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { ConsultCepService } from '../shared/services/consult-cep.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-data-form',
@@ -16,7 +16,9 @@ export class DataFormComponent implements OnInit {
   apiURL: string;
 
   // 19FM - cria interface para tipar variável
-  states: BrState[];
+  // states: BrState[];
+  // 24FM - declara observable de EstadoBR
+  states: Observable<BrState[]>
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,9 +31,10 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit(): void {
     // 20FM - faz requisição para obter lista de Estados. Precisa se inscrever porque o retorno é um Observable ou promise e queremos ser notificados quando houver retorno
-    this.dropdownService.getBrazilianStates()
-      .subscribe(data => { this.states = data; console.log(data); });
-      
+    // this.dropdownService.getBrazilianStates()
+    //   .subscribe(data => { this.states = data; console.log(data); });
+    // 24FM - Aqui nos inscrevemos no observable que retorna a lista de Estados e essa inscrição fica ativa na memória. Pode ser que mesmo quando o componente não estiver sendo exibido na tela, essa inscrição ainda possa ficar ativa e, com isso, haver memory leaks (vazamento de memória). Pra evitar, aconselha-se a usar o | async que faz automaticamente o subscribe e também se unsubscribe.
+    this.states = this.dropdownService.getBrazilianStates()
 
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS
