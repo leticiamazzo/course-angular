@@ -79,6 +79,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tecnologias</mat-label>
+        <mat-select multiple placeholder="Tecnologias" id="tecnology" formControlName="tecnologies">
+          <mat-option *ngFor="let tecnology of tecnologies" [value]="tecnology.name">
+            {{ tecnology.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
 
@@ -88,6 +97,7 @@
     <button mat-raised-button (click)="resetData()">Cancelar</button>
     <!-- 30FM - Cria essa função pra setar o valor que seja um objeto -->
     <button mat-raised-button (click)="setPosition()">Cargo</button>
+    <button mat-raised-button (click)="setTecnologies()">Tecnologias</button>
 
   </form>
 

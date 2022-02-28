@@ -22,6 +22,7 @@ export class DataFormComponent implements OnInit {
 
   // 28FM - cria varáivel cargos para receber valores vindos do service
   positions: any[];
+  tecnologies: any[]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,6 +42,7 @@ export class DataFormComponent implements OnInit {
 
     // 29FM - Recebe valores vindos do serviço
     this.positions = this.dropdownService.getDataStates();
+    this.tecnologies = this.dropdownService.getTecnologies();
 
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS
@@ -73,7 +75,8 @@ export class DataFormComponent implements OnInit {
       }),
 
       // 26FM - Adiciona campo no formulário reativo
-      position: [null]
+      position: [null],
+      tecnologies: [null]
     });
   }
 
@@ -199,11 +202,14 @@ export class DataFormComponent implements OnInit {
   }
 
   comparePositions(obj1, obj2): boolean {
-    console.log('teste');
-    
     return obj1 && obj2 ? 
       (obj1.name === obj2.name && obj1.level === obj2.level) : 
       obj1 === obj2;
+  }
+
+  // 32FM - Cria essa função pra setar múltiplos valores
+  setTecnologies() {
+    return this.form.get('tecnologies').setValue(['java', 'javascript'])
   }
 }
 
