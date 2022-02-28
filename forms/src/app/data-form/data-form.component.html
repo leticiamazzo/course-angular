@@ -88,6 +88,18 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <div>
+        <div>
+          <label>Receber newsletter</label>
+        </div>
+      
+        <section class="example-section">
+          <mat-radio-group id="newsletter" formControlName="newsletter">
+            <mat-radio-button class="example-margin" *ngFor="let option of newsletterOptions" [value]="option.name">{{ option.description }}</mat-radio-button>
+          </mat-radio-group>
+        </section>
+      </div>
     </div>
 
 

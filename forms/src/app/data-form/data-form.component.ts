@@ -23,6 +23,7 @@ export class DataFormComponent implements OnInit {
   // 28FM - cria varáivel cargos para receber valores vindos do service
   positions: any[];
   tecnologies: any[]
+  newsletterOptions: any[]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,6 +44,7 @@ export class DataFormComponent implements OnInit {
     // 29FM - Recebe valores vindos do serviço
     this.positions = this.dropdownService.getDataStates();
     this.tecnologies = this.dropdownService.getTecnologies();
+    this.newsletterOptions = this.dropdownService.getNewsletter();
 
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS
@@ -76,7 +78,8 @@ export class DataFormComponent implements OnInit {
 
       // 26FM - Adiciona campo no formulário reativo
       position: [null],
-      tecnologies: [null]
+      tecnologies: [null],
+      newsletter: [null],
     });
   }
 
