@@ -69,11 +69,25 @@
       </div>
     </div>
 
+    <!-- 27FM - Adiciona campo e recebe informações no html -->
+    <div class="line">
+      <mat-form-field appearance="outline">
+        <mat-label>Cargo</mat-label>
+        <mat-select placeholder="Cargo" id="position" formControlName="position" [compareWith]="comparePositions">
+          <mat-option *ngFor="let position of positions" [value]="position">
+            {{ position.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
 
     <!-- <button mat-raised-button color="primary" [disabled]="!form.valid">Enviar</button> -->
 
     <button mat-raised-button color="primary">Enviar</button>
     <button mat-raised-button (click)="resetData()">Cancelar</button>
+    <!-- 30FM - Cria essa função pra setar o valor que seja um objeto -->
+    <button mat-raised-button (click)="setPosition()">Cargo</button>
 
   </form>
 

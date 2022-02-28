@@ -20,4 +20,13 @@ export class DropdownService {
     //   map((res: Response) => res.json())
     // );
   }
+
+// 25FM - Cria outro método de Estado para enviar o objeto inteiro, não só a sigla
+  getDataStates() {
+    return [
+      { name: 'Dev', level: 'Junior', description: 'Dev Jr' },
+      { name: 'Dev', level: 'Pleno', description: 'Dev Pl' },
+      { name: 'Dev', level: 'Senior', description: 'Dev Sr' }
+    ]
+  }
 }

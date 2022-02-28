@@ -18,7 +18,10 @@ export class DataFormComponent implements OnInit {
   // 19FM - cria interface para tipar variável
   // states: BrState[];
   // 24FM - declara observable de EstadoBR
-  states: Observable<BrState[]>
+  states: Observable<BrState[]>;
+
+  // 28FM - cria varáivel cargos para receber valores vindos do service
+  positions: any[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,6 +38,9 @@ export class DataFormComponent implements OnInit {
     //   .subscribe(data => { this.states = data; console.log(data); });
     // 24FM - Aqui nos inscrevemos no observable que retorna a lista de Estados e essa inscrição fica ativa na memória. Pode ser que mesmo quando o componente não estiver sendo exibido na tela, essa inscrição ainda possa ficar ativa e, com isso, haver memory leaks (vazamento de memória). Pra evitar, aconselha-se a usar o | async que faz automaticamente o subscribe e também se unsubscribe.
     this.states = this.dropdownService.getBrazilianStates()
+
+    // 29FM - Recebe valores vindos do serviço
+    this.positions = this.dropdownService.getDataStates();
 
     // 4FM - cria formulário no momento da inicialização do componente
     // 2 FORMAS
@@ -64,7 +70,10 @@ export class DataFormComponent implements OnInit {
         neighborhood: [null, Validators.required],
         city: [null, Validators.required],
         state: [null, Validators.required],
-      })
+      }),
+
+      // 26FM - Adiciona campo no formulário reativo
+      position: [null]
     });
   }
 
@@ -179,6 +188,22 @@ export class DataFormComponent implements OnInit {
 
     // Caso queira popular apenar 1 campo específico
     // this.form.get('name').setValue('Leticia');
+  }
+
+  // 30FM - Cria essa função pra setar o valor que seja um objeto
+  setPosition() {
+    const cargo = { name: 'Dev', level: 'Pleno', description: 'Dev Pl' };
+
+    // 31FM - Essa comparação não é suficiente ao Angular. Aqui só compara a referência do objeto. Precisamos que também compare os valores com [value] e as propriedades usando compareWith (função que recebe 2 objetos e retorna boolean, indicando se esses objetos são iguais ou não)
+    this.form.get('cargo').setValue(cargo);
+  }
+
+  comparePositions(obj1, obj2): boolean {
+    console.log('teste');
+    
+    return obj1 && obj2 ? 
+      (obj1.name === obj2.name && obj1.level === obj2.level) : 
+      obj1 === obj2;
   }
 }
 
