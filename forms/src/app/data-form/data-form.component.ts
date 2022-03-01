@@ -80,6 +80,7 @@ export class DataFormComponent implements OnInit {
       position: [null],
       tecnologies: [null],
       newsletter: [null],
+      term: [null, Validators.pattern('true')],
     });
   }
 
