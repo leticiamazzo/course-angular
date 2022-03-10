@@ -1,10 +1,13 @@
-import { BrState } from './../shared/models/br-state';
+import { map } from 'rxjs/operators';
+import { VerifyEmailService } from './services/verify-email.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { ConsultCepService } from '../shared/services/consult-cep.service';
-import { Observable } from 'rxjs';
+import { FormValidations } from './../shared/form.validations';
+import { BrState } from './../shared/models/br-state';
 
 @Component({
   selector: 'app-data-form',
@@ -22,19 +25,23 @@ export class DataFormComponent implements OnInit {
 
   // 28FM - cria varáivel cargos para receber valores vindos do service
   positions: any[];
-  tecnologies: any[]
-  newsletterOptions: any[]
+  tecnologies: any[];
+  newsletterOptions: any[];
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient, // Classe disponível no módulo HttpClientModule. Ofere interface simplificada para fazer requisições
     private dropdownService: DropdownService,
     private consultCepService: ConsultCepService,
+    private verifyEmailService: VerifyEmailService,
   ) {
     this.apiURL = 'https://httpbin.org/post';
   }
 
   ngOnInit(): void {
+    // 34FM - confere serviço pra validação de email
+    // this.verifyEmailService.verifyEmail('email@email.com').subscribe();
+
     // 20FM - faz requisição para obter lista de Estados. Precisa se inscrever porque o retorno é um Observable ou promise e queremos ser notificados quando houver retorno
     // this.dropdownService.getBrazilianStates()
     //   .subscribe(data => { this.states = data; console.log(data); });
@@ -64,10 +71,11 @@ export class DataFormComponent implements OnInit {
       // 8FM - Adiciona validações
       name: [null, [Validators.required, Validators.min(2), Validators.max(30)]],
       email: [null, [Validators.required, Validators.email]],
+      confirmEmail: [null, [Validators.required, Validators.email]],
 
       // 10FM - Adiciona objeto addressGroup para que os inputs relacionados fiquem dentro dele
       addressGroup: this.formBuilder.group({
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         number: [null, Validators.required],
         complement: [null],
         address: [null, Validators.required],
@@ -83,6 +91,14 @@ export class DataFormComponent implements OnInit {
       term: [null, Validators.pattern('true')],
     });
   }
+
+  // buildFrameworks() {
+  //   console.log('entrou');
+    
+  //   // Pra cada valor que existe no array frameworks, vai criar o novo array abaixo
+  //   const values = this.frameworks.map(v => new FormControl(false));
+  //   return this.formBuilder.array(values);
+  // }
 
   onSubmit() {
     console.log(this.form);
@@ -123,6 +139,13 @@ export class DataFormComponent implements OnInit {
         this.verifyFormValidations(control);
       }
     });
+  }
+
+  verifyRequired(input: string) {
+    return (
+      this.form.get(input).hasError('required') && (this.form.get(input).touched || this.form.get(input).dirty)
+    )
+    ''
   }
 
   // 21FM - NA REFATORAÇAO TODA A CONSULTA DO CEP E RESPONSABILIDADE DO SERVICO
@@ -215,6 +238,16 @@ export class DataFormComponent implements OnInit {
   setTecnologies() {
     return this.form.get('tecnologies').setValue(['java', 'javascript'])
   }
+
+  // 34FM - escreve validação assíncrona
+  // validateEmail(formControl: FormControl) {
+  //   console.log('validando');
+    
+  //   return this.verifyEmailService.verifyEmail(formControl.value)
+  //     .pipe(
+  //       map(registeredEmail => registeredEmail ? { invalidEmail: true } : null)
+  //     )
+  // }
 }
 
 
