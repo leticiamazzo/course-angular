@@ -29,12 +29,12 @@
         <mat-form-field appearance="outline">
           <mat-label>CEP</mat-label>
           <!-- // 12FM - Passa o método no evento de blur -->
-          <input matInput type="text" placeholder="CEP" id="cep" formControlName="cep" (blur)="consultCEP()">
+          <input matInput type="text" placeholder="CEP" id="cep" formControlName="cep">
           <!--  (blur)="consultCEP($event.target.value)" -->
           <!-- todo evento disparado, sua função pode receber o $event. O .target  vai ser o campo de input que tem uma propriedade value -->
         </mat-form-field>
-        <div *ngIf="verifyRequired">Cep obrigatório</div>
-        <div *ngIf="form.get('addressGroup.cep').hasError('invalidCep')">Cep inválido</div>
+        <!-- <div *ngIf="verifyRequired">Cep obrigatório</div>
+        <div *ngIf="form.get('addressGroup.cep').hasError('invalidCep')">Cep inválido</div> -->
 
         <mat-form-field appearance="outline">
           <mat-label>Número</mat-label>

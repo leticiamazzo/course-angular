@@ -1,9 +1,9 @@
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { VerifyEmailService } from './services/verify-email.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { empty, Observable } from 'rxjs';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { ConsultCepService } from '../shared/services/consult-cep.service';
 import { FormValidations } from './../shared/form.validations';
@@ -90,6 +90,24 @@ export class DataFormComponent implements OnInit {
       newsletter: [null],
       term: [null, Validators.pattern('true')],
     });
+
+    // 34FM - Usado para validar o form inteiro e de repente exibir um check relacionado ao todo. Pode ser feito pro form ou cada fromControl
+    // this.form.statusChanges
+    // this.form.value
+    // this.form.valueChanges
+
+    // this.form.get('addressGroup.cep').valueChanges
+    //   .subscribe(value => console.log('valor cep:' + value));
+    this.form.get('addressGroup.cep').statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        tap(value => console.log('status cep:' + value)),
+        switchMap(status => status === 'VALID' ?
+          this.consultCepService.consultCEP(this.form.get('addressGroup.cep').value)
+          : empty()
+        )
+      )
+      .subscribe(data => data ? this.populateData(data) : {});
   }
 
   // buildFrameworks() {
