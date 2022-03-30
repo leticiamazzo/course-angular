@@ -1,0 +1,43 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  position: relative;
+  top: 0;
+  overflow: hidden;
+  z-index: 1;
+
+  a {
+    padding: 0 15px;
+    color: #fff;
+    text-decoration: none;
+
+    :visited {
+      color: #fff;
+    }
+  }
+
+  a.logo {
+    font-size: 32px;
+  }
+
+  .active-link {
+    background-color: #ff0076ba;
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  ul {
+    display: flex;
+    margin: 0;
+
+    li {
+      list-style: none;
+    }
+  }
+}
