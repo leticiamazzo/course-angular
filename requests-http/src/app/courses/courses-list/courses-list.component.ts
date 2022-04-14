@@ -11,23 +11,13 @@ import { CoursesService } from '../courses.service';
 export class CoursesListComponent {
   courses: Course[];
 
-  columns = [
-    {
-      columnDef: 'id',
-      header: 'No.',
-      cell: (element: Course) => `${element.id}`,
-    },
-    {
-      columnDef: 'name',
-      header: 'Name',
-      cell: (element: Course) => `${element.name}`,
-    },
-  ];
-
-  displayedColumns = this.columns.map((c) => c.columnDef);
+  displayedColumns: string[];
+  columns: string[];
 
   constructor(private courseService: CoursesService) {
     this.courses = [];
+    this.displayedColumns = ['id', 'name', 'actions'];
+    this.columns = ['ID', 'Curso', ''];
   }
 
   ngOnInit(): void {
@@ -35,6 +25,7 @@ export class CoursesListComponent {
       .list()
       // Precisa se inscrever e ficar escutando as mudanças que vão ser enviadas por esse Observable
       // no subscriber pega o resultado (data, no caso) e atribui a variável courses
+      // .subscribe(console.log);
       .subscribe((data) => (this.courses = data));
   }
 }
