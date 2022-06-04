@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Course } from './course';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CoursesService {
   // return é (method) CoursesService.list(): Observable<Object>
   // criou uma interface para parametrizar o tipo de retorno
   // ao colocar <Course> o parâmetro passa a ser Observable de Course e acrescenta [] porque é o que vai retornar
-  list() {
+  list(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.API}courses`)
   }
 }
