@@ -9,15 +9,15 @@ import { CoursesService } from '../courses.service';
   styleUrls: ['./courses-list.component.scss'],
 })
 export class CoursesListComponent {
-  courses: Course[];
+  // courses: Course[];
 
-  displayedColumns: string[];
-  columns: string[];
+  // displayedColumns: string[];
+  // columns: string[];
 
   constructor(private courseService: CoursesService) {
-    this.courses = [];
-    this.displayedColumns = ['id', 'name', 'actions'];
-    this.columns = ['ID', 'Curso', ''];
+    // this.courses = [];
+    // this.displayedColumns = ['id', 'name', 'actions'];
+    // this.columns = ['ID', 'Curso', ''];
   }
 
   ngOnInit(): void {
@@ -26,6 +26,6 @@ export class CoursesListComponent {
       // Precisa se inscrever e ficar escutando as mudanças que vão ser enviadas por esse Observable
       // no subscriber pega o resultado (data, no caso) e atribui a variável courses
       // .subscribe(console.log);
-      .subscribe((data) => (this.courses = data));
+      // .subscribe((data) => (this.courses = data));
   }
 }
