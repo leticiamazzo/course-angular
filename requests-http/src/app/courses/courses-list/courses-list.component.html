@@ -5,7 +5,8 @@
   </div>
 
   <div class="card-body">
-    <table class="table table-hover">
+    <!-- *ngIf para só exibir a tabela caso courses$ já tenha sido carregado -->
+    <table class="table table-hover" *ngIf="courses$ | async as courses; else loading">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -14,6 +15,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Antes o | async estava aqui assim: let course of courses | async, mas para ter verificação se conteúdo já foi carregado, fazemos | async na table e `as courses`guarda o valor que o for abaixo percorre  -->
         <tr *ngFor="let course of courses">
           <td>{{ course.id }}</td>
           <td>{{ course.name }}</td>
@@ -24,6 +26,10 @@
         </tr>
       </tbody>
     </table>
+
+    <ng-template #loading>
+      <span>Carregando...</span>
+    </ng-template>
   </div>
 </div>
 

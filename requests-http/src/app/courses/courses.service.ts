@@ -1,3 +1,4 @@
+import { delay, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -19,5 +20,9 @@ export class CoursesService {
   // ao colocar <Course> o parâmetro passa a ser Observable de Course e acrescenta [] porque é o que vai retornar
   list(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.API}courses`)
+    .pipe(
+      delay(2000),
+      tap(console.log)
+    )
   }
 }
