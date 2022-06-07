@@ -2,11 +2,12 @@
   <div class="card-header">
     <h1>Cursos</h1>
     <a href="#" class="btn btn-primary" [routerLink]="['novo']">Novo curso</a>
+    <a href="#" class="btn btn-secundary" (click)="onRefresh()">Atualizar</a>
   </div>
 
   <div class="card-body">
     <!-- *ngIf para só exibir a tabela caso courses$ já tenha sido carregado -->
-    <table class="table table-hover" *ngIf="courses$ | async as courses; else loading">
+    <table class="table table-hover" *ngIf="courses$ | async as courses; else loadingError">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -27,8 +28,14 @@
       </tbody>
     </table>
 
-    <ng-template #loading>
-      <span>Carregando...</span>
+    <ng-template #loadingError>
+      <div *ngIf="error$ | async; else loading">
+        <span>Erro ao carregar cursos. Tente novamente mais tarde.</span>
+      </div>
+
+      <ng-template #loading>
+        <span>Carregando...</span>
+      </ng-template>
     </ng-template>
   </div>
 </div>

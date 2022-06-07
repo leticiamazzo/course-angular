@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { empty, Observable, of, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Course } from '../course';
 import { CoursesService } from '../courses.service';
@@ -11,7 +12,8 @@ import { CoursesService } from '../courses.service';
 })
 export class CoursesListComponent {
   // courses$:courses: Course[];
-  courses$: Observable<Course[]>;
+  courses$: Observable<any>; //Observable<Course[]>; deveria ser, mas deu erro Type 'Observable<unknown>' is not assignable to type 'Observable<Course[]>'.
+  error$ = new Subject<boolean>();
 
   // displayedColumns: string[];
   // columns: string[];
@@ -33,8 +35,28 @@ export class CoursesListComponent {
       // subscribe e | async sevem pra se inscrever manualmente.
       // com subscribe sempre que se inscreve, também precisa desinscrever para não ficar consumindo memória sem necessidade, levando a problemas de performance e memory leaks. Funciona como inscrição em um serviço de streaming, onde cadastra cartão de crédito e é cobrado mensalmente (mesmo que não esteja usando) até que se desenscreva
       // benefício do | async é deixar o gerenciamento com o Angular
-      this.courses$ = this.courseService.list( )
 
+      this.onRefresh();
+  }
 
+  onRefresh() {
+    this.courses$ = this.courseService.list( )
+    .pipe(
+
+      // Tratamento em caso de erro. Ex: API não responde
+      catchError(error => {
+        // recebe observable de error
+        console.error(error);
+        this.error$.next(true);
+        return of(); //retorna vazio
+      })
+    )
+
+    // Caso use subscribe, pode colocar 3 lógicas / parâmetros
+    // .subscribe(
+    //    data => console.log(data) // 1ª - caso de sucesso
+    //    error => console.error(error) 2ª- caso de erro
+    //    () => console.log('Observable completo') 3ª- quando observable está completo e não vai mais emitir valor
+    // )
   }
 }
