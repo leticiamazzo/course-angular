@@ -1,4 +1,6 @@
+import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 import { Component } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { empty, Observable, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -15,10 +17,12 @@ export class CoursesListComponent {
   courses$: Observable<any>; //Observable<Course[]>; deveria ser, mas deu erro Type 'Observable<unknown>' is not assignable to type 'Observable<Course[]>'.
   error$ = new Subject<boolean>();
 
+  bsModalRef?: BsModalRef;
+
   // displayedColumns: string[];
   // columns: string[];
 
-  constructor(private courseService: CoursesService) {
+  constructor(private courseService: CoursesService, private modalService: BsModalService) {
     // this.courses = [];
     // this.displayedColumns = ['id', 'name', 'actions'];
     // this.columns = ['ID', 'Curso', ''];
@@ -47,7 +51,8 @@ export class CoursesListComponent {
       catchError(error => {
         // recebe observable de error
         console.error(error);
-        this.error$.next(true);
+        // this.error$.next(true);
+        this.handleError();
         return of(); //retorna vazio
       })
     )
@@ -58,5 +63,12 @@ export class CoursesListComponent {
     //    error => console.error(error) 2ª- caso de erro
     //    () => console.log('Observable completo') 3ª- quando observable está completo e não vai mais emitir valor
     // )
+  }
+
+  handleError() {
+    this.bsModalRef = this.modalService.show(AlertModalComponent);
+    this.bsModalRef.content.type = 'danger';
+    this.bsModalRef.content.message = 'Erro ao carregar cursos. Tente novamente mais tarde.';
+
   }
 }
