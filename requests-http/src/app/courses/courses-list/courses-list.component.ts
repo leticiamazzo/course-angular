@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { Course } from '../course';
 import { CoursesService } from '../courses.service';
+import { AlertModalService } from './../../shared/alert-modal.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -22,7 +23,11 @@ export class CoursesListComponent {
   // displayedColumns: string[];
   // columns: string[];
 
-  constructor(private courseService: CoursesService, private modalService: BsModalService) {
+  constructor(
+    private courseService: CoursesService,
+    private modalService: BsModalService,
+    private alertModalService: AlertModalService,
+  ) {
     // this.courses = [];
     // this.displayedColumns = ['id', 'name', 'actions'];
     // this.columns = ['ID', 'Curso', ''];
@@ -66,9 +71,7 @@ export class CoursesListComponent {
   }
 
   handleError() {
-    this.bsModalRef = this.modalService.show(AlertModalComponent);
-    this.bsModalRef.content.type = 'danger';
-    this.bsModalRef.content.message = 'Erro ao carregar cursos. Tente novamente mais tarde.';
+    this.alertModalService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.')
 
   }
 }
