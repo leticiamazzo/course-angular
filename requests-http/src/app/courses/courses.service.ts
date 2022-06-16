@@ -1,4 +1,4 @@
-import { delay, tap } from 'rxjs/operators';
+import { delay, take, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -24,5 +24,13 @@ export class CoursesService {
       delay(2000),
       tap(console.log)
     )
+  }
+
+  create(course: string) {
+    return this.http.post(`${this.API}courses`, course)
+      .pipe(
+        // se desencreve do observable após 1 chamada
+        take(1)
+      )
   }
 }

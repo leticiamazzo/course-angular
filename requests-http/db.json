@@ -11,6 +11,22 @@
     {
       "name": "Javascript",
       "id": 3
+    },
+    {
+      "name": "PHP",
+      "id": 4
+    },
+    {
+      "name": "Java",
+      "id": 5
+    },
+    {
+      "name": "Vue",
+      "id": 6
+    },
+    {
+      "name": "c++",
+      "id": 7
     }
   ]
 }
