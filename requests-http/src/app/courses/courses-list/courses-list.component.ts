@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 import { Component } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -28,6 +29,8 @@ export class CoursesListComponent {
     private courseService: CoursesService,
     private modalService: BsModalService,
     private alertModalService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     // this.courses = [];
     // this.displayedColumns = ['id', 'name', 'actions'];
@@ -35,8 +38,8 @@ export class CoursesListComponent {
   }
 
   ngOnInit(): void {
-    this.courseService
-      .list()
+    // this.courseService
+    //   .list()
       // Precisa se inscrever e ficar escutando as mudanças que vão ser enviadas por esse Observable
       // no subscriber pega o resultado (data, no caso) e atribui a variável courses
       // .subscribe(console.log);
@@ -74,5 +77,9 @@ export class CoursesListComponent {
   handleError() {
     this.alertModalService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.')
 
+  }
+
+  onEdit(id: number) {
+    this.router.navigate(['editar', id], { relativeTo: this.route })
   }
 }
