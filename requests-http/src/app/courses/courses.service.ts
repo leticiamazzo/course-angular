@@ -30,7 +30,7 @@ export class CoursesService {
     return this.http.get<Course>(`${this.API}courses/${id}`).pipe(take(1));
   }
 
-  private create(course: any) {
+  private create(course: Course) {
     return this.http.post(`${this.API}courses`, course)
       .pipe(
         // se desencreve do observable após 1 chamada
@@ -38,14 +38,19 @@ export class CoursesService {
       )
   }
 
-  private update(course: any) {
+  private update(course: Course) {
     return this.http.put(`${this.API}courses/${course.id}`, course).pipe(take(1));
   }
 
-  save(course: any) {
+  save(course: Course) {
     if (course.id) {
       return this.update(course);
     }
     return this.create(course);
+  }
+
+  remove(id: any) {
+    return this.http.delete(`${this.API}courses/${id}`).pipe(take(1));
+    // take(1) pq queremos ir no servidor, fazer request, pegar o resultado, se der errado usuário tenta novamente sem que precisemos nos desinscrever do observable
   }
 }

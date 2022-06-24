@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { empty, Observable, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -20,7 +21,11 @@ export class CoursesListComponent {
   courses$: Observable<any>; //Observable<Course[]>; deveria ser, mas deu erro Type 'Observable<unknown>' is not assignable to type 'Observable<Course[]>'.
   error$ = new Subject<boolean>();
 
-  bsModalRef?: BsModalRef;
+  // bsModalRef?: BsModalRef;
+  deleteModalRef: BsModalRef;
+  @ViewChild('deleteModal') deleteModal: any;
+
+  selectedCourse: Course;
 
   // displayedColumns: string[];
   // columns: string[];
@@ -30,7 +35,7 @@ export class CoursesListComponent {
     private modalService: BsModalService,
     private alertModalService: AlertModalService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     // this.courses = [];
     // this.displayedColumns = ['id', 'name', 'actions'];
@@ -40,31 +45,29 @@ export class CoursesListComponent {
   ngOnInit(): void {
     // this.courseService
     //   .list()
-      // Precisa se inscrever e ficar escutando as mudanças que vão ser enviadas por esse Observable
-      // no subscriber pega o resultado (data, no caso) e atribui a variável courses
-      // .subscribe(console.log);
-      // .subscribe(data => this.courses = data);
+    // Precisa se inscrever e ficar escutando as mudanças que vão ser enviadas por esse Observable
+    // no subscriber pega o resultado (data, no caso) e atribui a variável courses
+    // .subscribe(console.log);
+    // .subscribe(data => this.courses = data);
 
-      // subscribe e | async sevem pra se inscrever manualmente.
-      // com subscribe sempre que se inscreve, também precisa desinscrever para não ficar consumindo memória sem necessidade, levando a problemas de performance e memory leaks. Funciona como inscrição em um serviço de streaming, onde cadastra cartão de crédito e é cobrado mensalmente (mesmo que não esteja usando) até que se desenscreva
-      // benefício do | async é deixar o gerenciamento com o Angular
+    // subscribe e | async sevem pra se inscrever manualmente.
+    // com subscribe sempre que se inscreve, também precisa desinscrever para não ficar consumindo memória sem necessidade, levando a problemas de performance e memory leaks. Funciona como inscrição em um serviço de streaming, onde cadastra cartão de crédito e é cobrado mensalmente (mesmo que não esteja usando) até que se desenscreva
+    // benefício do | async é deixar o gerenciamento com o Angular
 
-      this.onRefresh();
+    this.onRefresh();
   }
 
   onRefresh() {
-    this.courses$ = this.courseService.list( )
-    .pipe(
-
+    this.courses$ = this.courseService.list().pipe(
       // Tratamento em caso de erro. Ex: API não responde
-      catchError(error => {
+      catchError((error) => {
         // recebe observable de error
         console.error(error);
         // this.error$.next(true);
         this.handleError();
         return of(); //retorna vazio
       })
-    )
+    );
 
     // Caso use subscribe, pode colocar 3 lógicas / parâmetros
     // .subscribe(
@@ -75,11 +78,39 @@ export class CoursesListComponent {
   }
 
   handleError() {
-    this.alertModalService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.')
-
+    this.alertModalService.showAlertDanger(
+      'Erro ao carregar cursos. Tente novamente mais tarde.'
+    );
   }
 
   onEdit(id: number) {
-    this.router.navigate(['editar', id], { relativeTo: this.route })
+    this.router.navigate(['editar', id], { relativeTo: this.route });
+  }
+
+  onDelete(course: any) {
+    this.selectedCourse = course;
+    this.deleteModalRef = this.modalService.show(this.deleteModal, {
+      class: 'modal-sm',
+    });
+  }
+
+  onConfirmDelete() {
+    console.log(this.selectedCourse);
+
+    // //não precisamos fazer unsubscribe pq no serviço já tem o takeUntil(1) assim que for pro servidor e voltar com resultado
+    this.courseService.remove(this.selectedCourse.id).subscribe(
+      success => {
+        this.onRefresh(),
+        this.onDeclineDelete()
+      },
+      error => {
+        this.alertModalService.showAlertDanger('Erro ao remover cursos. Tente novamente mais tarde.'),
+        this.onDeclineDelete()
+      }
+    )
+  }
+
+  onDeclineDelete() {
+    this.deleteModalRef.hide();
   }
 }

@@ -22,7 +22,7 @@
           <td>{{ course.name }}</td>
           <td>
             <button type="button" class="btn btn-warning" (click)="onEdit(course.id)">Editar</button>
-            <button type="button" class="btn btn-danger">Remover</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete(course)">Remover</button>
           </td>
         </tr>
       </tbody>
@@ -43,6 +43,14 @@
     </ng-template> -->
   </div>
 </div>
+
+<ng-template #deleteModal>
+  <div class="modal-body text-center">
+    <p>Quer excluir esse curso?</p>
+    <button type="button" class="btn btn-default" (click)="onConfirmDelete()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">Não</button>
+  </div>
+</ng-template>
 
 
 <!-- <mat-card>
