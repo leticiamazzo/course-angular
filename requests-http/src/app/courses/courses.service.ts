@@ -27,14 +27,25 @@ export class CoursesService {
   }
 
   loadById(id: number) {
-    return this.http.get(`${this.API}courses/${id}`).pipe(take(1));
+    return this.http.get<Course>(`${this.API}courses/${id}`).pipe(take(1));
   }
 
-  create(course: string) {
+  private create(course: any) {
     return this.http.post(`${this.API}courses`, course)
       .pipe(
         // se desencreve do observable após 1 chamada
         take(1)
       )
+  }
+
+  private update(course: any) {
+    return this.http.put(`${this.API}courses/${course.id}`, course).pipe(take(1));
+  }
+
+  save(course: any) {
+    if (course.id) {
+      return this.update(course);
+    }
+    return this.create(course);
   }
 }
