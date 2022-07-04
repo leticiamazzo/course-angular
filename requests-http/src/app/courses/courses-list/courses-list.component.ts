@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 import { Component, ViewChild } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { empty, Observable, of, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { EMPTY, empty, Observable, of, Subject } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 
 import { Course } from '../course';
 import { CoursesService } from '../courses.service';
@@ -89,9 +89,28 @@ export class CoursesListComponent {
 
   onDelete(course: any) {
     this.selectedCourse = course;
-    this.deleteModalRef = this.modalService.show(this.deleteModal, {
-      class: 'modal-sm',
-    });
+    // this.deleteModalRef = this.modalService.show(this.deleteModal, {
+    //   class: 'modal-sm',
+    // });
+
+    const result$ = this.alertModalService.showConfirm('Confirmação', 'Quer excluir esse curso?');
+    result$.asObservable()
+    .pipe(
+      take(1),
+      // switchMap = pega valor retornado e vai retornar outro observable. se botão clicado for true, segue registro
+      switchMap(result => result ? this.courseService.remove(course.id) : EMPTY)
+    )
+    // faz subscribe para receber valor
+    .subscribe(
+      success => {
+        this.onRefresh(),
+        this.onDeclineDelete()
+      },
+      error => {
+        this.alertModalService.showAlertDanger('Erro ao remover cursos. Tente novamente mais tarde.'),
+        this.onDeclineDelete()
+      }
+    )
   }
 
   onConfirmDelete() {
